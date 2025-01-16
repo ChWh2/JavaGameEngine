@@ -6,24 +6,21 @@ import java.awt.event.KeyListener;
 import Basic2D.Vector2;
 
 public class Input implements KeyListener {
-	public boolean wPressed = false;
-	public boolean aPressed = false;
-	public boolean sPressed = false;
-	public boolean dPressed = false;
+	private static InputAction[] actions = new InputAction[0];
 	
 	@Override
 	public void keyTyped(KeyEvent e) {
-		if (testInput(e, 'w', 'W')) {
-			wPressed = true;
-		}
-		else if (testInput(e, 'a', 'A')) {
-			aPressed = true;
-		}
-		else if (testInput(e, 's', 'S')) {
-			sPressed = true;
-		}
-		else if (testInput(e, 'd', 'D')) {
-			dPressed = true;
+		//Loops Through each Action
+		for(int actionIndex = 0; actionIndex < actions.length; actionIndex++) {
+			InputAction action = actions[actionIndex];
+			//Loops Through Each Key in A Action
+			for(int keyIndex = 0; keyIndex < action.keys.length; keyIndex++) {
+				if(action.keys[keyIndex] == e.getKeyChar()) {
+					action.isDown = true;
+					action.isJustDown = true;
+					return;
+				}
+			}
 		}
 	}
 
@@ -32,39 +29,67 @@ public class Input implements KeyListener {
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if (testInput(e, 'w', 'W')) {
-			wPressed = false;
-		}
-		else if (testInput(e, 'a', 'A')) {
-			aPressed = false;
-		}
-		else if (testInput(e, 's', 'S')) {
-			sPressed = false;
-		}
-		else if (testInput(e, 'd', 'D')) {
-			dPressed = false;
+		//Loops Through each Action
+		for(int actionIndex = 0; actionIndex < actions.length; actionIndex++) {
+			InputAction action = actions[actionIndex];
+			//Loops Through Each Key in A Action
+			for(int keyIndex = 0; keyIndex < action.keys.length; keyIndex++) {
+				if(action.keys[keyIndex] == e.getKeyChar()) {
+					action.isDown = false;
+					return;
+				}
+			}
 		}
 	}
 	
-	private boolean testInput(KeyEvent e, char character1, char character2) {
-		return e.getKeyChar() == character1 || e.getKeyChar() == character2;
+	public static void proccess() {
+		for(var i = 0; i < actions.length; i++) {
+			actions[i].isJustDown = false;
+		}
 	}
 	
-	public Vector2 getWASDInputAxis() {
+	public static Vector2 getInputAxis(String up, String Down, String left, String right) {
 		Vector2 inputDir = new Vector2(0,0);
-		if(Engine.InputManager.wPressed) {
+		if(isActionDown(up)) {
 			inputDir.y -= 1;
 		}
-		if(Engine.InputManager.aPressed) {
+		if(isActionDown(left)) {
 			inputDir.x -= 1;
 		}
-		if(Engine.InputManager.sPressed) {
+		if(isActionDown(Down)) {
 			inputDir.y += 1;
 		}
-		if(Engine.InputManager.dPressed) {
+		if(isActionDown(right)) {
 			inputDir.x += 1;
 		}
 		inputDir = inputDir.normalize();
 		return inputDir;
+	}
+	
+	public static boolean isActionDown(String action) {
+		for(var i = 0; i < actions.length; i++) {
+			if(actions[i].name == action) {
+				return actions[i].isDown;
+			}
+		}
+		return false;
+	}
+	
+	public static boolean isActionJustPressed(String action) {
+		for(var i = 0; i < actions.length; i++) {
+			if(actions[i].name == action) {
+				return actions[i].isJustDown;
+			}
+		}
+		return false;
+	}
+	
+	public static void createAction(String action, char[] keys) {
+		InputAction[] newActions = new InputAction[actions.length + 1];
+		for(var i = 0; i < actions.length; i++) {
+			newActions[i] = actions[i];
+		}
+		newActions[actions.length] = new InputAction(action, keys);
+		actions = newActions;
 	}
 }

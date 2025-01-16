@@ -7,7 +7,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import EngineUtils.Engine;
-import EngineUtils.Window;
 
 public class Sprite extends Displayable{
 	public Transform transform = new Transform();
@@ -27,7 +26,7 @@ public class Sprite extends Displayable{
 			ImageIcon image = new ImageIcon(texture.getImage().getScaledInstance((int)transform.size.x, (int)transform.size.y, Image.SCALE_SMOOTH));
 			jLabel.setIcon(image);
 			
-			currentDisplayWindow.add(jLabel);
+			Engine.CurrentWindow.add(jLabel);
 			
 			jLabel.setSize((int)transform.size.x, (int)transform.size.y);
 			
@@ -35,9 +34,7 @@ public class Sprite extends Displayable{
 		}
 	}
 	
-	public Sprite(Window window, Vector2 position, Vector2 Size, double Rot) {
-		super(window);
-				
+	public Sprite(Vector2 position, Vector2 Size, double Rot) {
 		transform.position = position;
 		transform.size = Size;
 		transform.rotation = Rot;
