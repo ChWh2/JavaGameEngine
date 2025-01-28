@@ -1,7 +1,9 @@
 package Game;
 
-import Basic2D.Vector2;
+import Nodes.Vector;
 
 public final record ProjectSettings() {
-	public static Vector2 defaultWindowSize = new Vector2(1000,500);
+	public static String Name = "Game";
+	public static Vector defaultWindowSize = new Vector(1000,500);
+	public static boolean resizable = false;
 }

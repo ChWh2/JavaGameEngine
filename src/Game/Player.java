@@ -3,18 +3,23 @@ package Game;
 import java.awt.Rectangle;
 import java.nio.file.Paths;
 
-import Basic2D.Sprite;
-import Basic2D.Vector2;
 import EngineUtils.Engine;
+import Nodes.HitBox;
+import Nodes.Sprite;
+import Nodes.Vector;
 
 public class Player extends Sprite {
+	
+	HitBox hitbox;
 
-	public Player(Vector2 position, Vector2 Size, double Rot) {
+	public Player(Vector position, Vector Size, double Rot) {
 		super(position, Size, Rot);
 		
+		hitbox = new HitBox((Size.x+Size.y)/4);
+		AddChild(hitbox);
 		texturePath = Paths.get("src\\Game\\player.png");
 	}
-	public void move(Vector2 direction) {
+	public void move(Vector direction) {
 		transform.position = transform.position.add(direction);
 		wrap();
 	}
@@ -34,5 +39,4 @@ public class Player extends Sprite {
 			transform.position.y = -transform.size.y/2.0;
 		}
 	}
-	
 }

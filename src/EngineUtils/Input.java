@@ -3,7 +3,7 @@ package EngineUtils;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import Basic2D.Vector2;
+import Nodes.Vector;
 
 public class Input implements KeyListener {
 	private static InputAction[] actions = new InputAction[0];
@@ -15,7 +15,7 @@ public class Input implements KeyListener {
 			InputAction action = actions[actionIndex];
 			//Loops Through Each Key in A Action
 			for(int keyIndex = 0; keyIndex < action.keys.length; keyIndex++) {
-				if(action.keys[keyIndex] == e.getKeyChar()) {
+				if(action.keys[keyIndex] == Character.toLowerCase(e.getKeyChar())) {
 					action.isDown = true;
 					action.isJustDown = true;
 					return;
@@ -34,7 +34,7 @@ public class Input implements KeyListener {
 			InputAction action = actions[actionIndex];
 			//Loops Through Each Key in A Action
 			for(int keyIndex = 0; keyIndex < action.keys.length; keyIndex++) {
-				if(action.keys[keyIndex] == e.getKeyChar()) {
+				if(action.keys[keyIndex] == Character.toLowerCase(e.getKeyChar())) {
 					action.isDown = false;
 					return;
 				}
@@ -48,8 +48,8 @@ public class Input implements KeyListener {
 		}
 	}
 	
-	public static Vector2 getInputAxis(String up, String Down, String left, String right) {
-		Vector2 inputDir = new Vector2(0,0);
+	public static Vector getInputAxis(String up, String Down, String left, String right) {
+		Vector inputDir = new Vector(0,0);
 		if(isActionDown(up)) {
 			inputDir.y -= 1;
 		}

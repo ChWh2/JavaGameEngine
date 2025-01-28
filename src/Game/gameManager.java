@@ -1,28 +1,31 @@
 package Game;
 
-import Basic2D.Vector2;
+import java.nio.file.Paths;
+
 import EngineUtils.Input;
-import EngineUtils.Script;
+import Nodes.HitBox;
+import Nodes.Sprite;
+import Nodes.Vector;
 
-public class gameManager extends Script{
-	Player player;
+public class gameManager{
+	Player player = new Player(new Vector(0,0), new Vector(100,100), 0.0);
+	Sprite testSprite = new Sprite(new Vector(300,300), new Vector(100,100), 0.0);
+	HitBox testBox = new HitBox(50);
 
-	@Override
 	public void ready() {
-		player = new Player(new Vector2(0,0), new Vector2(100,100), 0.0);
+		testSprite.texturePath = Paths.get("src\\Game\\player.png");
+		testSprite.AddChild(testBox);
 		
-		Input.createAction("Up", new char[]{'w', 'W'});
-		Input.createAction("Down", new char[]{'s', 'S'});
-		Input.createAction("Left", new char[]{'a', 'A'});
-		Input.createAction("Right", new char[]{'d', 'D'});
+		//Create Inputs
+		Input.createAction("Up", new char[]{'w'});
+		Input.createAction("Down", new char[]{'s'});
+		Input.createAction("Left", new char[]{'a'});
+		Input.createAction("Right", new char[]{'d'});
 	}
 	
-	@Override 
 	public void proccess(float delta) {
-		Vector2 inputDir = Input.getInputAxis("Up","Down","Left","Right");
-		player.move(inputDir.multiply(0.1 * delta));
-		
-		player.display();
+		Vector inputDir = Input.getInputAxis("Up","Down","Left","Right");
+		player.move(inputDir.multiply(100 * delta));
 	}
 
 }

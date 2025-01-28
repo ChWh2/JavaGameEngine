@@ -11,7 +11,7 @@ public class Window extends JFrame{
 		setLayout(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
-		setResizable(false);
+		setResizable(ProjectSettings.resizable);
 		setSize((int)ProjectSettings.defaultWindowSize.x,(int)ProjectSettings.defaultWindowSize.y);		
 	}
 }
